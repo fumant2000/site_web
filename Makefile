@@ -45,6 +45,9 @@ npm-build: ## Build the assets
 	@$(call GREEN, "Building assets...")
 	$(NPM) run build
 
+npm-watch: ## Exécute la commande npm run watch
+	$(NPM) run watch
+
 ## ----- Symfony -----
 start: ## Start the project
 	@$(call GREEN, "Starting the project...")
@@ -60,6 +63,16 @@ database-create: ## Create the database
 	@$(call GREEN, "Creating database...")
 	$(SYMFONY_CONSOLE) doctrine:database:create --if-not-exists
 
+entity: ## Crée ou modifie une entité
+	$(SYMFONY_CONSOLE) make:entity
+
+migration: ## Génère une migration avec les changements des entités
+	$(SYMFONY_CONSOLE) make:migration
+
+migrate: ## Exécute les migrations
+	$(SYMFONY_CONSOLE) doctrine:migrations:migrate -n
+
+
 database-drop: ## Drop the database
 	@$(call GREEN, "Dropping database...")
 	$(SYMFONY_CONSOLE) doctrine:database:drop --force --if-exists
@@ -74,7 +87,7 @@ database-rollback: ## Rollback the database
 
 database-fixtures: ## Load the fixtures
 	@$(call GREEN, "Loading fixtures...")
-	$(SYMFONY_CONSOLE) doctrine:fixtures:load --no-interaction
+	$(SYMFONY_CONSOLE) doctrine:fixtures:load -n
 
 database-init: ## Initialize the database
 	@$(call GREEN, "Initializing database...")
